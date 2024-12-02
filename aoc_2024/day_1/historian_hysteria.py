@@ -14,7 +14,7 @@ if __name__ == "__main__":
     print(sum(distances))
 
     count_second_numbers = Counter(second_numbers)
-    similarity = 0
-    for num in first_numbers:
-        similarity += num * count_second_numbers.get(num, 0)
+    similarity = sum(
+        num * count_second_numbers.get(num, 0) for num in first_numbers
+    )
     print(similarity)
