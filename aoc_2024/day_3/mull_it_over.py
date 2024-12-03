@@ -17,19 +17,19 @@ if __name__ == "__main__":
     print(total_sum)
 
     total_sum = 0
-    off = False
+    on = True
     for line in lines:
         donts = list(DONTS.finditer(line))
         donts = [m.regs[0][-1] for m in donts]
         dos = list(DOS.finditer(line))
         dos = [m.regs[0][-1] for m in dos]
-        flags = [int(not off) for _ in range(len(line))]
+        flags = [int(on) for _ in range(len(line))]
         for idx, _ in enumerate(flags):
             if idx in donts:
-                off = True
+                on = False
             if idx in dos:
-                off = False
-            flags[idx] = int(not off)
+                on = True
+            flags[idx] = int(on)
         for mul_match in MUL_REGEX.finditer(line):
             start, end = mul_match.regs[0]
             a, b = mul_match.groups()
