@@ -23,25 +23,19 @@ if __name__ == '__main__':
     with open("data/input.dat", "r") as f:
         games = f.read().split("\n\n")
 
-    total_cost = 0
+    total_cost_1 = 0
+    total_cost_2 = 0
     for game in games:
         step_a_str, step_b_str, final_position_str = game.strip().split("\n")
         step_a = tuple(map(int, STEP_RE.search(step_a_str).groups()))
         step_b = tuple(map(int, STEP_RE.search(step_b_str).groups()))
-        final_position = tuple(map(int, POSITION_RE.search(final_position_str).groups()))
-        if result := solve_a_b(step_a, step_b, final_position):
+        final_position_1 = tuple(map(int, POSITION_RE.search(final_position_str).groups()))
+        if result := solve_a_b(step_a, step_b, final_position_1):
             if all(0 < i <= 100 for i in result):
-                total_cost += COST_A * result[0] + COST_B * result[1]
-    print(total_cost)
-
-    total_cost = 0
-    for game in games:
-        step_a_str, step_b_str, final_position_str = game.strip().split("\n")
-        step_a = tuple(map(int, STEP_RE.search(step_a_str).groups()))
-        step_b = tuple(map(int, STEP_RE.search(step_b_str).groups()))
-        final_position = tuple(map(int, POSITION_RE.search(final_position_str).groups()))
-        final_position = (final_position[0] + OFFSET, final_position[1] + OFFSET)
-        if result := solve_a_b(step_a, step_b, final_position, tolerance=1E-3):
+                total_cost_1 += COST_A * result[0] + COST_B * result[1]
+        final_position_2 = (final_position_1[0] + OFFSET, final_position_1[1] + OFFSET)
+        if result := solve_a_b(step_a, step_b, final_position_2, tolerance=1E-3):
             if all(i >= 0 for i in result):
-                total_cost += COST_A * result[0] + COST_B * result[1]
-    print(total_cost)
+                total_cost_2 += COST_A * result[0] + COST_B * result[1]
+    print(total_cost_1)
+    print(total_cost_2)
